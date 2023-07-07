@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Spring Boot Project Demo 3</title>
+<link rel="stylesheet" href="./styles/index.css">
+
+</head>
+<body>
+    <div class="cabecera">
+        <div class="cab1"></div>
+        <div class="cap2"></div>
+    </div>
+    <div class="cuerpo">
+        <div class="panel1">
+            <div class="nota"><div class="notacab1"><p>Proyecto</p></div>
+                              <div class="notabody"><p style="text-align: center;"><span th:text="${'#'+DatosProyecto.proyecto}"></span></p>
+                            </div>
+            </div>
+            <div class="nota"><div class="notacab1"><p>Objetivos</p></div>
+                              <div class="notabody"><p class="objetivos" th:utext="'- '+${DatosProyecto.objetivo1}"></p>
+                              						<p class="objetivos" th:utext="'- '+${DatosProyecto.objetivo2}"></p>
+                              						<p class="objetivos" th:utext="'- '+${DatosProyecto.objetivo3}"></p>
+                              </div>        
+                            
+            </div>
+            <div class="nota"><div class="notacab2"><p>Entorno de Desarrollo</p></div>
+                              <div class="notabody"><p><span>Ide:</span> <em th:text="${DatosProyecto.ide}"></em></p>
+                                                    <p><span>Servidor de referencia:</span> <em th:text="${DatosProyecto.servidor}"></em></p>
+                                                    <p><span>Jdk:</span> <em th:text="${DatosProyecto.jdk}"></em></p>
+                            </div>
+            </div>
+            <div class="nota"><div class="notacab2"><p>Estandar de Desarrollo</p></div>
+                              <div class="notabody"><p><span>Gestor de proyecto:</span> <em th:text="${DatosProyecto.gestorproyecto}"></em></p>
+                            </div>
+            </div> 
+            <div class="nota"><div class="notacab2"><p>Dependencias</p></div>
+                              <div class="notabody"><p><span>Spring Boot Framework:</span> <em th:text="${DatosProyecto.dependencias}"></em></p>
+                            </div>
+            </div>    
+            <div class="nota"><div class="notacab2"><p>Documentación y Sitios de Interés</p></div>
+                              <div class="notabody"><p><a href="https://mvnrepository.com/" target="_blank"><b>Ir a</b></a> Maven Repository (para localizar dependencias)</p>
+                                                    <p><a href="https://docs.spring.io/spring-framework/docs/current/reference/html/" target="_blank"><b>Leer</b></a> Documentación de Spring Framework</p>
+                                                    <p><a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/"target="_blank"><b>Leer</b></a> Documentación de Spring Boot</p>
+                                                    <p><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html" target="_blank"><b>Leer</b></a> Documentación de propiedades (application.properties)</p>
+                            </div>
+            </div>         
+        </div>
+        <div class="panel2">
+			 <div class="item"><p><span>Ejemplo 1 - Ficheros .properties</span></p> 
+			 				   <p>Spring Boot reserva una serie de propiedades especiales que nos facilitan la configuración de muchas facetas del proyecto. Por ello, tenga en cuenta esto para que no repitas dichos identificadores y no crear conflictos.</p>
+            				   <p>Para más información sobre los parámetros <b>especiales</b> reservados por Spring Boot, consule su documentación haciendo clic <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html" target="_blank">Aquí</a></p>
+            </div>
+            <div class="item"><p><span>Ejemplo 2 - Acceso a las propiedades .properties</span></p> 
+            				  <p>Para acceder en java a cualquier propiedad definida en un fichero .properties, solo debes utilizar la java annotation <b>@Value</b> en las controladoras. Fijese como en la controladora MainController haciendo uso de @Value se accede al valor de las propiedades del fichero application.properties y que cargamos en el modelo para mostrarlas a continuación:</p>
+            				  <p><b>spring.thymeleaf.cache:</b> <em th:text="${Cache}"></em></p>
+            				  <p><b>server.port:</b> <em th:text="${Port}"></em></p>
+            				  <p><b>server.servlet.session.timeout:</b> <em th:text="${Sessiontimeout}"></em></p>
+            				 
+            </div>
+            <div class="item"><p><span>Ejemplo 3 - ¿Cómo crear un nuevo fichero de propiedades?</span></p>
+                              <p><b>1º)</b> Creé en el directorio <b>/src/main/resources</b> un fichero cuya extensión sea .properties. Ej: otrosparametros.properties</p>
+                              <p><b>2º)</b> A continuación, añada en el Main() de la aplicación la siguiente java annotation: <b>@PropertySource("classpath:nombrefichero.properties")</b>. Donde nombrefichero es el nombre que le ha dado en el paso anterior. Ej: @PropertySource("classpath:otrosparametros.properties"). (Vea la clase TSpringBootProyectDemo3Application).</p>
+                              <p><b>3º)</b> Finalmente, desde cualquier controladora, haciendo uso de la java annotation <b>@Value</b> puede acceder a las propiedades. (Ej: examine la controladora MainController.java)</p>
+                              <br>
+                              <p><b>IMPORTANTE: </b> No repita los identificadores de las propiedades, aunque estén en ficheros diferentes.</p>
+            </div>
+            <div class="item"><p><span>Ejemplo 4 - Evento de Inicio de Aplicación:</span></p>
+                              <p>En ocasiones, puede ser interesante capturar el evento de inicio de aplicación. ¿Por qué?. Pues por ejemplo, alguna de las necesidades (entre muchas) pueden ser:</p>
+                              <p>- <b>Creación de caches de datos en memoria de aplicación</b>: Para minimizar las peticiones repetitivas a la capa de datos.</p>
+                              <p>- <b>Generar hilos de procesamiento en background</b>: Relacionado con lo anterior, puede ser interesante que cada cierto tiempo se refresque la cache tomando posibles nuevos valores de la base de datos. Ej: Datos de códigos postales, calles, municipios, paises, etc.</p>
+                              <p>Crear caches de datos, favorece el rendimiento y velocidad de las aplicaciones. Lo único que debes tener en cuenta, es que para crear datos en memoria de aplicación, solo debes crearlos bajo atributos estáticos. Todo atributo estático es compartido por todos los hilos de los clientes.</p>
+                              <p><b>¿Cómo puedo capturar el evento de inicio de aplicación?</b></p>
+                              <p>Pues una de tantas formas, es crear una clase que implemente la interfaz ApplicationListener&lt;ContextRefreshedEvent&gt;. A continuación se le indica el código que debe crear y que tiene como ejemplo en la clase de este proyecto StartupListener.java:</p>
+                              <p>
+								import org.springframework.context.ApplicationListener;<br>
+								import org.springframework.context.event.ContextRefreshedEvent;<br>
+								import org.springframework.stereotype.Component;<br><br>
+								@Component<br>
+								public class StartupListener implements ApplicationListener&lt;ContextRefreshedEvent&gt; {<br><br>
+								    @Override<br>
+								    public void onApplicationEvent(ContextRefreshedEvent event) {}<br> 
+								}
+							  </p>
+							  <p><b style="color:red;">IMPORTANTE:</b> Si está tentado en considerar el Main() de la aplicación como inicio de la misma, tenga en cuenta que el código que ejecute el main() no está sujeto a las apis de spring boot y entre otras cosas, no podrá acceder a los parámetros de los ficheros de configuración. Sin embargo el evento onApplicationEvent ya le garantiza que todo spring boot y sus contenedores están cargados.</p>                           
+            </div>
+            <div class="item"><p><span>Ejemplo 5 - ¿Cómo crear una clase fuera de las controladoras que agrupe parámetros de ficheros .properties?</span></p>
+                              <p>Si desea agrupar un conjunto de propiedades de los ficheros .properties en un objeto, tome como referencia la clase de ejemplo ApplicationData.java.</p>
+                              <p>Todas las propiedades del proyecto que puede ver en los paneles de la izquierda, han sido cargados desde un objeto de dicha clase que se ha creado en la controladora MainController.</p>
+            </div>
+        </div>
+    </div>
+    <div class="pie"><p><span>©</span> 2023 - Daniel Pérez Pérez</p></div>
+
+</body>
+</html>
